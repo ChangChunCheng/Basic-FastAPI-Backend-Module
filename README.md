@@ -21,11 +21,12 @@
    ```
    - .env中，修改APP_HOST相關設定 (例如IP、PORT等)
    - src/configs/中，修改psql.py中資料庫連線設定，其餘config依使用需求調整
-3. 安裝相依套件
+3. 安裝相依套件與建立定時任務置放資料夾
    ```{bash}
    $ cd Basic-FastAPI-Backend-Module
    $ source bin/activate
    $ pip install -r src/requirements.txt
+   $ mkdir -p db/scheduler
    ```
 4. 啟動資料庫與FastAPI
    **開啟2個terminal**
