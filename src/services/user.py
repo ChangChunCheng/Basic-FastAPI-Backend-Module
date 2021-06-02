@@ -42,7 +42,7 @@ class UserService(UserControl):
         user: models.User = await super().get_user_by_account(account=account)
         return documents.User(**user['User'].dict()) if user else None
 
-    async def create_user(self, user: documents.UserCreate) -> documents.User:
+    async def create_user(self, user: documents.UserCreate) -> bool:
         new_user = user.dict()
         new_user['password'] = self.get_password_hash(
             new_user['password']
