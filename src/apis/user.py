@@ -35,6 +35,48 @@ async def create_user(user: documents.UserCreate):
             status_code=status.HTTP_406_NOT_ACCEPTABLE, detail='User exist.')
 
 
+@user_router.post('/update', response_model=List[documents.User], status_code=status.HTTP_200_OK)
+async def update_user(user: documents.UserCreate):
+    async with loader.db_session() as session:
+        async with session.begin_nested():
+            user_service = UserService(session=session)
+            result = await user_service.update_user(user=user)
+    if result:
+        return await get_pricipals(account=user.account)
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail='Update error.'
+        )
+
+
+@user_router.post('/delete', response_model=List[documents.User], status_code=status.HTTP_200_OK)
+async def delete_user(user: documents.UserDelete):
+    async with loader.db_session() as session:
+        async with session.begin_nested():
+            user_service = UserService(session=session)
+            result = await user_service.delete_user(user=user)
+    if result:
+        return await get_pricipals(account=user.account)
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail='Delete error.'
+        )
+
+
+@user_router.post('/open', response_model=List[documents.User], status_code=status.HTTP_200_OK)
+async def delete_user(user: documents.UserDelete):
+    async with loader.db_session() as session:
+        async with session.begin_nested():
+            user_service = UserService(session=session)
+            result = await user_service.open_user(user=user)
+    if result:
+        return await get_pricipals(account=user.account)
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail='Open error.'
+        )
+
+
 @user_router.post("/token", response_model=documents.Token)
 async def login_for_access_token(login: documents.Login = Depends()):
     async with loader.db_session() as session:

@@ -26,3 +26,8 @@ class User(UserBase):
 
     class Config:
         orm_mode: bool = True
+
+
+class UserDelete(UserBase):
+    class Config:
+        orm_mode: bool = True

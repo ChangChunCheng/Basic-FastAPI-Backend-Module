@@ -63,3 +63,20 @@ class UserService(UserControl):
             (user['User'].disable == False) \
             else \
             False
+
+    async def update_user(self, user: documents.User) -> bool:
+        old_user = await self.get_user_by_account(account=user.account)
+        user.id = old_user.id
+        user.password = self.get_password_hash(user.password)
+        user = models.User(**user.dict())
+        return await super().update_user(user)
+
+    async def delete_user(self, user: documents.UserDelete) -> bool:
+        old_user = await self.get_user_by_account(account=user.account)
+        old_user.disable = True
+        return await self.update_user(user=old_user)
+
+    async def open_user(self, user: documents.UserDelete) -> bool:
+        old_user = await self.get_user_by_account(account=user.account)
+        old_user.disable = False
+        return await self.update_user(user=old_user)

@@ -42,3 +42,19 @@ class UserControl(User):
         await self.session.flush()
         await self.session.commit()
         return None
+
+    async def update_user(self, user: User) -> bool:
+        user = user.dict()
+        user['updateat'] = func.now()
+        stamt_user = update(
+            User
+        ).where(
+            User.account == user['account']
+        ).values(
+            **user
+        )
+        stamt_user.execution_options(synchronize_session='fetch')
+        await self.session.execute(stamt_user)
+        await self.session.flush()
+        await self.session.commit()
+        return True
