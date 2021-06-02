@@ -1,0 +1,11 @@
+APP_HOST= # host IP
+APP_PORT=8000 # integer between 1025-65525
+WORKERS=8 # integer
+LOOP=asyncio
+
+POSTGRESQL_ENTRYPOINT_D=./db/psql/docker-entrypoint-initdb.d
+POSTGRESQL_DATA=./db/psql/pgdata
+POSTGRESQL_USER=postgresql
+POSTGRES_PASSWORD=postgresql
+POSTGRESQL_PORT=5432
+POSTGRESQL_DB=test

@@ -1,0 +1,17 @@
+version: "3"
+services:
+  test-DB:
+    image: postgres:12.6
+    container_name: test-psql
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ${POSTGRESQL_ENTRYPOINT_D:-./db/docker-entrypoint-initdb.d}:/docker-entrypoint-initdb.d/
+      - ${POSTGRESQL_DATA:-./db/pgdata}:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_USER:-postgresql}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgresql}
+      POSTGRES_DB: ${POSTGRESQL_DB:-test_db}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRESQL_PORT:-5432}:5432"
